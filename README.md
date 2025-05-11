@@ -41,24 +41,6 @@ docker-compose up --build
 
 ---
 
-### 🧪 Вариант 2: Ручной запуск
-
-#### 1. Убедитесь, что установлен Go 1.20+
-
-#### 2. Запуск сервиса
-
-```bash
-go run ./cmd/calc_service/...
-```
-
-#### 3. Запуск gRPC агента (в отдельной вкладке терминала):
-
-```bash
-go run ./cmd/agent/...
-```
-
----
-
 ## 🔐 Авторизация
 
 ### Регистрация
@@ -203,17 +185,74 @@ JWT_REFRESH_TOKEN="jwt_refresh1337"
 ## 📁 Структура
 
 ```text
-cmd/
-  ├─ calc_service/     # Запуск REST API + gRPC-сервера
-  └─ agent/            # gRPC агент
+yandexlms-final/
+│
+├── server/                      # Серверная часть на Go
+│   ├── app/                     # Инициализация приложения
+│   │   ├── app.go
+│   │   └── db.go                # Подключение к базе данных (SQLite + GORM)
+│   ├── grpcservice/            # gRPC-сервер и обработчики задач
+│   │   ├── grpcservice.go
+│   │   ├── integration_test.go
+│   │   └── server_test.go
+│   ├── handlers/               # HTTP-обработчики (Gin)
+│   │   ├── auth/               # Авторизация (JWT + Cookie)
+│   │   │   └── auth.go
+│   │   └── expressions/        # Вычисления (REST API)
+│   │       └── expressions.go
+│   ├── middlewares/           # JWT-миддлвар
+│   │   └── authmiddleware.go
+│   ├── models/                # GORM-модели (User, Expression, Task)
+│   │   └── models.go
+│   ├── proto/                 # gRPC-протокол
+│   │   └── expression/
+│   │       └── expression.proto
+│   ├── routes/                # Маршруты Gin
+│   │   └── routes.go
+│   ├── utils/jwt/             # JWT-утилиты (генерация, парсинг)
+│   │   └── jwt.go
+│   ├── .env                   # Конфигурация окружения
+│   ├── Dockerfile             # Docker-образ сервера
+│   ├── go.mod
+│   ├── go.sum
+│   └── main.go                # Точка входа
+│
+├── agent/                     # gRPC-агент для выполнения задач
+│   ├── eval/                  # Логика обработки выражений
+│   │   └── eval.go
+│   ├── proto/                 # Протокол gRPC (общий с сервером)
+│   │   └── expression/
+│   │       └── expression.proto
+│   ├── .env                   # Переменные окружения агента
+│   ├── agent.go               # Основной gRPC-клиент
+│   ├── Dockerfile             # Docker-образ агента
+│   ├── go.mod
+│   └── go.sum
+│
+├── client/                    # Клиентская часть (React + Vite)
+│   ├── public/                # Публичные ресурсы
+│   ├── src/                   # Исходный код
+│   │   ├── api/               # API-запросы (Fetch)
+│   │   │   └── client.js
+│   │   ├── assets/            # Статические ресурсы
+│   │   ├── components/        # Компоненты интерфейса
+│   │   │   └── ExpressionList.jsx
+│   │   ├── context/           # Контекст авторизации
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/             # Страницы: вход, регистрация, главная
+│   │   │   ├── HomePage.jsx / .css
+│   │   │   ├── LoginPage.jsx
+│   │   │   └── RegisterPage.jsx
+│   │   ├── App.jsx / App.css  # Основное приложение
+│   │   └── main.jsx           # Точка входа
+│   ├── Dockerfile             # Docker-образ клиента
+│   ├── index.html
+│   ├── vite.config.js         # Конфигурация Vite
+│   ├── package.json
+│   └── README.md
+│
+├── docker-compose.yml         # Компоновка всех сервисов
+└── README.md                  # Общая документация
 
-internal/
-  ├─ handlers/
-  ├─ middlewares/
-  ├─ models/
-  ├─ proto/
-  └─ utils/
-
-docker-compose.yml
 ```
 
