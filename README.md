@@ -30,7 +30,7 @@
 
 ## 🔧 Запуск проекта
 
-### ✅ Вариант 1: Docker Compose
+### Используем Docker Compose
 
 ```bash
 docker-compose up --build
