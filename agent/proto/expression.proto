@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package expressions;
+
+option go_package = "expression/";
+
+// Сообщение с одной задачей
+message Task {
+  uint32 id            = 1;
+  string expression    = 2;
+  uint32 operationTime = 3;
+}
+
+// Пустое сообщение для GetTask
+message Empty {}
+
+// Ответ на GetTask
+message GetTaskResponse {
+  Task task = 1;
+}
+
+// Запрос для отправки результата
+message SubmitTaskRequest {
+  uint32 id     = 1;
+  double result = 2;
+}
+
+// Ответ на SubmitTask
+message SubmitTaskResponse {
+  string message = 1;
+}
+
+// Сервис для агентов
+service TaskService {
+  rpc GetTask(Empty) returns (GetTaskResponse);
+  rpc SubmitTaskResult(SubmitTaskRequest) returns (SubmitTaskResponse);
+}
