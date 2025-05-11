@@ -1,15 +1,23 @@
 version: '3.8'
 
 services:
+  #frontend:
+    # build:
+    #   context: ./client
+    # container_name: frontend
+    # restart: always
+    # ports:
+    #   - "3000:80"
+    # networks:
+    #   - backend
+
   main_app:
-    build: 
+    build:
       context: ./server
     container_name: main_app
     restart: always
     ports:
       - "8000:8000"
-    # НЕ перезаписываем весь /app, иначе бинарник и .env сольются!
-    # Вместо этого монтируем только подкаталог для данных (db file):
     volumes:
       - db_data:/app/data
     networks:
@@ -22,21 +30,10 @@ services:
     restart: always
     networks:
       - backend
-  
-  frontend:
-    build:
-      context: ./client
-    container_name: frontend
-    ports:
-      - "5173:80"
-    networks:
-      - backend
-    depends_on:
-      - main_app
-
 
 volumes:
   db_data:
 
 networks:
   backend:
+    driver: bridge

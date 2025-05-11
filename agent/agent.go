@@ -36,12 +36,10 @@ func calc(task *expressionpb.Task) float64 {
 
 func worker(client expressionpb.TaskServiceClient) {
 	for {
-		// Получаем задачу
 		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 		resp, err := client.GetTask(ctx, &expressionpb.Empty{})
 		cancel()
 		if err != nil {
-			// Если реально NotFound — просто ждём, но не логируем как ошибку
 			if status.Code(err) == codes.NotFound {
 				time.Sleep(retryInterval)
 				continue
@@ -51,13 +49,11 @@ func worker(client expressionpb.TaskServiceClient) {
 			continue
 		}
 
-		// Пустой ответ от сервера (нет задачи) — ждём и повторяем
 		if resp.Task == nil || resp.Task.Id == 0 {
 			time.Sleep(retryInterval)
 			continue
 		}
 
-		// Вычисляем и отправляем результат
 		result := calc(resp.Task)
 		ctx, cancel = context.WithTimeout(context.Background(), requestTimeout)
 		_, err = client.SubmitTaskResult(ctx, &expressionpb.SubmitTaskRequest{
@@ -74,7 +70,6 @@ func worker(client expressionpb.TaskServiceClient) {
 }
 
 func main() {
-	// Кол-во воркеров
 	workers := defaultWorkers
 	if v, err := strconv.Atoi(os.Getenv("COMPUTING_POWER")); err == nil && v > 0 {
 		workers = v
@@ -94,5 +89,5 @@ func main() {
 	for i := 0; i < workers; i++ {
 		go worker(client)
 	}
-	select {} // не выходим
+	select {}
 }

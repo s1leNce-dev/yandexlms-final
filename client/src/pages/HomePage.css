@@ -1,0 +1,120 @@
+.homepage {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .homepage h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .homepage form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .homepage .input-field {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .homepage .btn {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .homepage .btn:hover {
+    background-color: #155fa0;
+  }
+  
+  .homepage .error {
+    color: #d32f2f;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  .homepage ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .homepage li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .homepage li:last-child {
+    border-bottom: none;
+  }
+  
+  .homepage .detail-btn {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .homepage .detail-btn:hover {
+    background-color: #3b8b3b;
+  }
+  
+  .homepage pre {
+    background: #f4f4f4;
+    padding: 16px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-top: 20px;
+  }
+  
+/* Детальная карточка */
+.detail-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-key {
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .detail-value {
+    color: #333;
+    text-align: right;
+  }
+  

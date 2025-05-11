@@ -16,7 +16,7 @@ var (
 
 func InitRoutes(r *gin.Engine, db *gorm.DB) {
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"http://frontend:3000", "http://localhost:3000", "http://localhost:8000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Content-Type"},
 		AllowCredentials: true,
@@ -41,16 +41,6 @@ func InitRoutes(r *gin.Engine, db *gorm.DB) {
 		})
 		userRoutes.GET("/expressions/:id", func(c *gin.Context) {
 			expressions.GetExpressionByID(c, db)
-		})
-	}
-
-	agentRoutes := r.Group("/internal")
-	{
-		agentRoutes.GET("/task", func(c *gin.Context) {
-			expressions.GetTask(c, db)
-		})
-		agentRoutes.POST("/task", func(c *gin.Context) {
-			expressions.SubmitTaskResult(c, db)
 		})
 	}
 }
